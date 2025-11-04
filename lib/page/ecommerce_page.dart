@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rosun_fi_windows/widget/public.dart';
 
+import '../gen/assets.gen.dart';
+
 class EcommercePage extends StatelessWidget {
   const EcommercePage({super.key});
 
@@ -165,8 +167,7 @@ class EcommercePage extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12.r),
-        child: Image.asset(
-          'assets/images/Banner.png',
+        child: Assets.images.banner.image(
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.cover,

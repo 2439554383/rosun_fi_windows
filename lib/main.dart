@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rosun_fi_windows/page/tab/tab.dart';
 import 'package:rosun_fi_windows/config/windows_config.dart';
+import 'package:rosun_fi_windows/page/test/test_page.dart';
 import 'package:rosun_fi_windows/util/f_route.dart';
 
 void main() {
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: const TabPage(),
+          home: const TestPage(),
         );
       },
     );

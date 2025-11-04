@@ -7,6 +7,7 @@ import '../page/tab/home/new_deposit/deposit_application_page.dart';
 import '../page/tab/home/new_deposit/deposit_success_page.dart';
 import '../page/demo_page.dart';
 import '../page/ecommerce_page.dart';
+import '../page/test/test_page.dart';
 
 class FRoute {
   static const String tab = '/tab';
@@ -17,6 +18,7 @@ class FRoute {
   static const String newDepositSuccess = '/newDepositSuccess';
   static const String demo = '/demo';
   static const String ecommerce = '/ecommerce';
+  static const String test = '/test';
 
   static List<GetPage> getPages = [
     GetPage(name: tab, page: () => TabPage()),
@@ -30,6 +32,7 @@ class FRoute {
     GetPage(name: newDepositSuccess, page: () => const DepositSuccessPage()),
     GetPage(name: demo, page: () => const DemoPage()),
     GetPage(name: ecommerce, page: () => const EcommercePage()),
+    GetPage(name: test, page: () => const TestPage()),
   ];
 
   static push(
