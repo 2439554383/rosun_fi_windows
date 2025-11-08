@@ -7,20 +7,20 @@ extension EString on String {
 
   String add([num value = 1]) {
     num number = num.parse(this);
-    number+=value;
-    return number.toString();  // ✅ 返回新字符串
+    number += value;
+    return number.toString(); // ✅ 返回新字符串
   }
 
   String reduce([num value = 1]) {
     num number = num.parse(this);
-    number-=value;
-    return number.toString();  // ✅ 返回新字符串
+    number -= value;
+    return number.toString(); // ✅ 返回新字符串
   }
 
   num get toNum => num.parse(this);
 
   String get encryption {
-    return "*"*this.length;
+    return "*" * this.length;
   }
 
   /// 判断是否为手机号（以1开头的11位数字，中国大陆规则）

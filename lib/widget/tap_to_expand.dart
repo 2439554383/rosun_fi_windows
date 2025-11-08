@@ -17,13 +17,19 @@ class TapToExpend extends StatelessWidget {
             for (var i = 0; i < 20; i++)
               Text(
                 "data $i",
-                style: theme.textTheme.bodyLarge?.copyWith(fontSize: 20,color: Colors.white),
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
               ),
           ],
         ),
         title: Text(
           'TapToExpand',
-          style: theme.textTheme.titleLarge?.copyWith(fontSize: 20,color: Colors.white),
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontSize: 20,
+            color: Colors.white,
+          ),
         ),
         closedHeight: 70,
         borderRadius: BorderRadius.circular(10),

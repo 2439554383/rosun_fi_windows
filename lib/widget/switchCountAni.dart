@@ -16,7 +16,7 @@ class _AnimatedFlipperState extends State<AnimatedFlipper> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         i++;
         _valueStream.add(i);
       },

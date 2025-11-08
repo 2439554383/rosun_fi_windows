@@ -18,14 +18,17 @@ class _CustomLiquidProgressIndicatorState
       width: 120,
       child: LiquidCircularProgressIndicator(
         value: 0.5,
-        valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.primary),
+        valueColor: AlwaysStoppedAnimation(
+          Theme.of(context).colorScheme.primary,
+        ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         borderColor: Colors.transparent,
         borderWidth: 0,
         direction: Axis.vertical,
-        center:  Text(
-            "Loading...",
-            style: Theme.of(context).textTheme.bodyMedium),
+        center: Text(
+          "Loading...",
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
       ),
     );
   }

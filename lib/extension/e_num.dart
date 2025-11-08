@@ -10,7 +10,7 @@ extension ENum on num {
 
   String get encryption {
     final num = this.toString();
-    return "*"*num.length;
+    return "*" * num.length;
   }
 
   String get billionFormat {
