@@ -19,6 +19,10 @@ extension EString on String {
 
   num get toNum => num.parse(this);
 
+  String get encryption {
+    return "*"*this.length;
+  }
+
   /// 判断是否为手机号（以1开头的11位数字，中国大陆规则）
   bool get isPhone {
     final phoneRegex = RegExp(r'^1[3-9]\d{9}$');

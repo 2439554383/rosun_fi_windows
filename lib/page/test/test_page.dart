@@ -1,10 +1,13 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:rosun_fi_windows/commen/font_style.dart';
+import 'package:rosun_fi_windows/extension/e_String.dart';
 import 'package:rosun_fi_windows/widget/add_and_subtract.dart';
 import 'package:rosun_fi_windows/widget/public.dart';
+import 'package:rosun_fi_windows/widget/tap_to_expand.dart';
 import '../../widget/selection_button.dart';
+import '../../widget/switchCountAni.dart';
 import 'test_ctrl.dart';
 
 class TestPage extends GetView<TestCtrl> {
@@ -17,7 +20,7 @@ class TestPage extends GetView<TestCtrl> {
       init: TestCtrl(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: const Color(0xFFF5F5F5),
+          backgroundColor: Colors.black,
           appBar: AppBar(
             title: const Text('测试页面'),
             backgroundColor: Colors.white,
@@ -26,52 +29,115 @@ class TestPage extends GetView<TestCtrl> {
             centerTitle: true,
           ),
           body: SafeArea(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [_buildTestContent(pW, controller)],
-              ),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
+              child: _buildTestContent(pW, controller),
             ),
           ),
         );
       },
     );
   }
-
+  Widget fBox(){
+    return SizedBox(height: 20.h);
+  }
   Widget _buildTestContent(PublicWidget pW, TestCtrl ctrl) {
-    return Column(
+    // 获取当前使用的设计尺寸
+    final designSize = Platform.isWindows
+        ? const Size(1920, 1080)
+        : const Size(375, 812);
+
+    return ListView(
+      shrinkWrap: true,
       children: [
-        Text(
-          '测试页面',
-          style: TextStyle(
-            fontSize: 24.sp,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF333333),
+        // 调试信息显示
+        Container(
+          padding: EdgeInsets.all(16.w),
+          margin: EdgeInsets.symmetric(horizontal: 20.w),
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: Colors.blue.withOpacity(0.3)),
+          ),
+          child: Column(
+            children: [
+              fBox(),
+              Text(
+                '📱 平台信息',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                '平台: ${Platform.isWindows ? "Windows" : "移动端"}',
+                style: TextStyle(fontSize: 14.sp),
+              ),
+              Text(
+                '设计尺寸: ${designSize.width.toInt()} × ${designSize.height.toInt()}',
+                style: TextStyle(fontSize: 14.sp),
+              ),
+              Text(
+                '屏幕尺寸: ${1.sw.toInt()} × ${1.sh.toInt()}',
+                style: TextStyle(fontSize: 14.sp),
+              ),
+            ],
           ),
         ),
-        pW.Box(h: 20.h),
-        Text(
-          '这是一个测试页面',
-          style: TextStyle(fontSize: 16.sp, color: const Color(0xFF666666)),
-        ),
+        fBox(),
         SelectionButton(
           statusList: ctrl.statusList,
           radius: 8.r,
-          color: Colors.white,
+          color: Colors.black,
+          textStyle: TextStyle(color: Colors.white),
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
-          textStyle: MyFont().black_4_18,
           shrinkWrap: true,
           callBack: (index) {
             ctrl.selectItem(index);
           },
         ),
+        fBox(),
         AddAndSubtract(
             height: 65.h,
             growing: 300,
             controller: ctrl.textEditingController,
             min: 100,
             max: 1500,
+            borderColor: Colors.transparent,
+            radius: 20.r,
+            type: Type.connect,
         ),
+        fBox(),
+        Text("10000.22".encryption),
+        fBox(),
+        Row(
+          children: [
+            ...List.generate(6, (index){
+              return Row(
+                children: [
+                  Text("data"),
+                  Tooltip(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.r)),
+                      color: Colors.black.withOpacity(0.5)
+                    ),
+                    message: '这是一个提示信息',
+                    triggerMode: TooltipTriggerMode.longPress,
+                    child: Icon(Icons.info_outline),
+                  )
+                ],
+              );
+            })
+          ],
+        ),
+        fBox(),
+        AnimatedFlipper(),
+        fBox(),
+        TapToExpend(),
+        fBox(),
+
       ],
     );
   }

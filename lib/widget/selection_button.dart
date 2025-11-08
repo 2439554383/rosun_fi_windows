@@ -41,17 +41,29 @@ class _SelectionButtonState extends State<SelectionButton> {
             onTap: () {
               widget.callBack(index);
             },
-            child: Container(
-              padding: widget.padding,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(widget.radius),
-                color: widget.color,
-                border: Border.all(
-                  color: item.status ? Colors.deepPurple : Colors.white,
+            child: Center(
+              child: Container(
+                width: 50.w,
+                height: 50.h,
+                padding: widget.padding,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(widget.radius),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      spreadRadius: 0,
+                      blurRadius: 10,
+                      offset: const Offset(0, 1), // changes position of shadow
+                    ),
+                  ],
+                  color: widget.color,
+                  border: Border.all(
+                    color: item.status ? Colors.deepPurple : Colors.transparent,
+                  ),
                 ),
+                alignment: Alignment.center,
+                child: Text(item.name, style: widget.textStyle),
               ),
-              alignment: Alignment.center,
-              child: Text(item.name, style: widget.textStyle),
             ),
           );
         },

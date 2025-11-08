@@ -8,7 +8,10 @@ extension ENum on num {
     return this.toStringAsFixed(2);
   }
 
-
+  String get encryption {
+    final num = this.toString();
+    return "*"*num.length;
+  }
 
   String get billionFormat {
     final sign = isNegative ? '-' : '';

@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '2.0.21'
+    val kotlinVersion = "2.0.21"
     repositories {
         maven { url = uri("https://mirrors.tuna.tsinghua.edu.cn/google/maven/") }   // Google Maven 镜像
         maven { url = uri("https://mirrors.tuna.tsinghua.edu.cn/maven-central/") }   // Maven Central 镜像
@@ -9,8 +9,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.6.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("com.android.tools.build:gradle:8.6.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 
