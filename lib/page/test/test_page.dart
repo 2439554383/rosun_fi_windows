@@ -1,15 +1,17 @@
 import 'dart:io' show Platform;
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rosun_fi_windows/extension/e_String.dart';
 import 'package:rosun_fi_windows/widget/add_and_subtract.dart';
+import 'package:rosun_fi_windows/widget/f_column_chart.dart';
 import 'package:rosun_fi_windows/widget/public.dart';
 import 'package:rosun_fi_windows/widget/tap_to_expand.dart';
 import 'package:rosun_fi_windows/widget/water_loading.dart';
+import '../../widget/f_line_chart.dart';
 import '../../widget/selection_button.dart';
 import '../../widget/switchCountAni.dart';
+import '../../widget/tradePoint.dart';
 import 'test_ctrl.dart';
 
 class TestPage extends GetView<TestCtrl> {
@@ -147,153 +149,169 @@ class TestPage extends GetView<TestCtrl> {
         Container(
           height: 45.h,
           child: ElevatedButton(
-              onPressed: (){
-                ctrl.radius = 5.r;
+            onPressed: () {
+              ctrl.radius = 5.r;
+              ctrl.update();
+              Future.delayed(Duration(milliseconds: 100), () {
+                ctrl.radius = 3.r;
                 ctrl.update();
-                Future.delayed(Duration(milliseconds: 100),(){
-                  ctrl.radius = 3.r;
-                  ctrl.update();
-                });
-              },
-              style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey[900])),
-              child: Text("点击交易")
+              });
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll(Colors.grey[900]),
+            ),
+            child: Text("点击交易"),
           ),
         ),
         fBox(),
-        Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-          child: Stack(
-            children: [
-              Container(
-                width: 300.w,
-                height: 300.h,
-                child: TweenAnimationBuilder(
-                    tween: Tween(begin: 3.r,end: ctrl.radius),
-                    duration: Duration(milliseconds: 300),
-                    builder: (context,size,child){
-                      return CustomPaint(
-                          painter: FLineChart(max: 9.15,min: 7.7, radius: ctrl.radius)
-                      );
-                    }
+        Stack(
+          fit: StackFit.passthrough,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                GestureDetector(
+                  onLongPressStart: (detail){
+                    ctrl.lineLeft = detail.localPosition.dx;
+                    ctrl.lineTop = detail.localPosition.dy;
+                    ctrl.update();
+                  },
+                  onLongPressMoveUpdate: (detail) {
+                    print('移动中: ${detail.localPosition}');
+                    ctrl.lineLeft = detail.localPosition.dx;
+                    ctrl.lineTop = detail.localPosition.dy;
+                    ctrl.update();
+                  },
+                  onLongPressEnd: (details) {
+                    print('长按结束');
+                    ctrl.lineLeft = 0;
+                    ctrl.lineTop = 0;
+                    ctrl.update();
+                  },
+                  child: Container(
+                    height: 300.h,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        CustomPaint(
+                          painter: FLineChart(
+                            max: 9.15,
+                            min: 7.7,
+                            dataList: ctrl.dataList,
+                          ),
+                        ),
+                        TweenAnimationBuilder<double>(
+                          tween: Tween<double>(begin: 3.r, end: ctrl.radius),
+                          duration: const Duration(milliseconds: 100),
+                          builder: (context, animatedRadius, child) {
+                            return CustomPaint(
+                              painter: TrandePoint(
+                                max: 9.15,
+                                min: 7.7,
+                                radius: animatedRadius,
+                                dataList: ctrl.dataList,
+                              ),
+                            );
+                          },
+                        ),
+                        Positioned(top: 3.h, left: 3.w, child: Text('9.15')),
+                        Positioned(
+                          left: 3.w,
+                          top: 0,
+                          bottom: 0,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              '${((9.15 + 7.7) / 2).toStringAsFixed(2)}',
+                            ),
+                          ),
+                        ),
+                        Positioned(bottom: 3.h, left: 3.w, child: Text('7.7')),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Positioned(
-                  top: 3.h,
-                  left: 3.w,
-                  child: Text("9.15")
-              ),
-              Positioned(
-                left: 3.w,
-                top: 0,
-                bottom: 0,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("${((9.15+7.7)/2).toStringAsFixed(2)}"),
+                SizedBox(
+                  height: 30.h,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Positioned(top: 3.h, left: 3.w, child: Text('9.30')),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        top: 3,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text('11.30'),
+                        ),
+                      ),
+                      Positioned(top: 3, right: 3.w, child: Text('15.00')),
+                    ],
+                  ),
                 ),
-              ),
-              Positioned(
-                  bottom: 3.h,
-                  left: 3.w,
-                  child: Text("7.7")
-              )
-            ],
+                SizedBox(
+                  height: 75.h,
+                  child: CustomPaint(
+                    painter: FColumnChart(
+                      max: 11000,
+                      min: 1000,
+                      dataList: ctrl.dataList,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              left: ctrl.lineLeft,
+              top: 0,
+              bottom: 0,
+              child: Container(width: 1, color: Colors.grey),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              top: ctrl.lineTop,
+              child: Container(height: 1, color: Colors.grey),
+            ),
+          ],
+        ),
+        fBox(),
+        GestureDetector(
+          onTap: (){
+            ctrl.itemWidth = 20.w;
+            ctrl.update();
+            ctrl.animationController.reset();
+            ctrl.animationController.forward();
+          },
+          child: AnimatedBuilder(
+            animation: ctrl.animationController,
+            builder: (BuildContext context, Widget? child) {
+              final value = ctrl.animationController.value;
+              return Center(
+                child: Stack(
+                  clipBehavior: Clip.hardEdge,
+                  children: [
+                    Text("股票数据更新"),
+                    Positioned(
+                        left: 100.w*value,
+                        top: 0,
+                        bottom: 0,
+                        child: Container(
+                          width: ctrl.itemWidth,
+                          color: Colors.green.withOpacity(0.4),
+                        )
+                    )
+                  ],
+                ),
+              );
+            },
           ),
         ),
-        Container(
-          width: double.infinity,
-          height: 30.h,
-          child: Stack(
-            children: [
-              Positioned(
-                  top: 3.h,
-                  left: 3.w,
-                  child: Text("9.30")
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 3,
-                child: Align(
-                    alignment: Alignment.center,
-                    child: Text("11.30")
-                ),
-              ),
-              Positioned(
-                  top: 3,
-                  right: 3.w,
-                  child: Text("15.00")
-              )
-            ],
-          ),
-        )
       ],
     );
   }
-}
-
-class FLineChart extends CustomPainter {
-  double min;
-  double max;
-  double radius;
-  FLineChart({required this.min, required this.max, required this.radius});
-
-
-  final random = Random();
-  double get latest => 8 + random.nextDouble() * 0.7;
-  int get volume => 1000 + random.nextInt(10000);
-
-  late final List<ChartData> dataList = List.generate(100, (i) {
-    return ChartData(i.toDouble(), latest, volume);
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.blueAccent
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
-
-    final path = Path();
-
-    // 取出最大最小值，用于归一化映射
-    // final minY = dataList.map((e) => e.latest).reduce(min);
-    // final maxY = dataList.map((e) => e.latest).reduce(max);
-
-    for (int i = 0; i < dataList.length; i++) {
-      final item = dataList[i];
-
-      // x 坐标：按索引分布在宽度内
-      final x = size.width / (dataList.length - 1) * i;
-
-      // y 坐标：将价格映射到画布高度（反转 Y 轴）
-      final y = size.height -
-          ((item.latest - min) / (max - min)) * size.height;
-
-      if (i == 0) {
-        path.moveTo(x, y);
-      }
-      else if( i == (dataList.length -1)){
-        path.lineTo(x, y);
-        canvas.drawCircle(Offset(x, y), radius.r, paint);
-      }
-      else {
-        path.lineTo(x, y);
-      }
-
-    }
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-
-}
-
-class ChartData {
-  final double date;
-  final double latest;
-  final int volume;
-
-  ChartData(this.date, this.latest, this.volume);
 }
