@@ -8,8 +8,13 @@ class TrandePoint extends CustomPainter {
   double min;
   double max;
   double radius;
-  List<ChartData> dataList ;
-  TrandePoint({required this.min, required this.max, required this.radius,required this.dataList});
+  List<ChartData> dataList;
+  TrandePoint({
+    required this.min,
+    required this.max,
+    required this.radius,
+    required this.dataList,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -21,13 +26,11 @@ class TrandePoint extends CustomPainter {
     final path = Path();
 
     final lastData = dataList.last;
-    final x = size.width/(dataList.length - 1)*(dataList.length-1);
-    final y = size.height - (lastData.latest-min)/(max-min)*size.height;
+    final x = size.width / (dataList.length - 1) * (dataList.length - 1);
+    final y = size.height - (lastData.latest - min) / (max - min) * size.height;
     canvas.drawCircle(Offset(x, y), radius, paint);
-
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-
 }

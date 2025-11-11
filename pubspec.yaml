@@ -117,6 +117,7 @@ dependencies:
   animated_flip_counter: ^0.3.4
   tap_to_expand: ^0.7.2
   liquid_progress_indicator_v2: ^0.5.0
+  linked_scroll_controller: ^0.2.0
 
 dev_dependencies:
   flutter_test:

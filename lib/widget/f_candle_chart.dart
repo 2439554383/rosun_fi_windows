@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FLineChart extends CustomPainter {
+import 'f_line_chart.dart';
+
+class FCandleChart extends CustomPainter {
   double min;
   double max;
   List<ChartData> dataList;
-  FLineChart({required this.min, required this.max, required this.dataList});
+  FCandleChart({required this.min, required this.max, required this.dataList});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -29,30 +31,11 @@ class FLineChart extends CustomPainter {
       // y 坐标：将价格映射到画布高度（反转 Y 轴）
       final y = size.height - ((item.latest - min) / (max - min)) * size.height;
 
-      if (i == 0) {
-        path.moveTo(x, y);
-      } else if (i == (dataList.length - 1)) {
-        final x = i == dataList.length - 1
-            ? size.width
-            : size.width / (dataList.length - 1) * i;
-        path.lineTo(x, y);
-        // canvas.drawCircle(Offset(x, y), radius.r, paint);
-      } else {
-        path.lineTo(x, y);
-      }
-    }
 
-    canvas.drawPath(path, paint);
+    }
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
-class ChartData {
-  final num date;
-  final num latest;
-  final num volume;
-
-  ChartData(this.date, this.latest, this.volume);
-}
