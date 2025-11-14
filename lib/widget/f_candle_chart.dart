@@ -30,12 +30,9 @@ class FCandleChart extends CustomPainter {
 
       // y 坐标：将价格映射到画布高度（反转 Y 轴）
       final y = size.height - ((item.latest - min) / (max - min)) * size.height;
-
-
     }
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
-

@@ -62,11 +62,15 @@ class TestCtrl extends GetxController with GetSingleTickerProviderStateMixin {
 
   Rx<bool> isDrag = false.obs;
   Rx<bool> isCandleDrag = false.obs;
+
+  bool hasDraw = false;
+
   @override
   void onInit() {
     group = LinkedScrollControllerGroup();
     candleController = group.addAndGet();
     volumeController = group.addAndGet();
+    scrollListener();
     super.onInit();
     // 初始化逻辑
   }
@@ -103,13 +107,22 @@ class TestCtrl extends GetxController with GetSingleTickerProviderStateMixin {
       final DateTime date = today.subtract(Duration(days: 100 - index));
       final double trend = (random.nextDouble() - 0.5) * 0.4;
 
-      final double open = (previousClose + trend / 2).clamp(7.2, 9.5).toDouble();
-      final double high = (open + random.nextDouble() * 0.35).clamp(open, 9.8).toDouble();
-      final double low = (open - random.nextDouble() * 0.35).clamp(6.8, open).toDouble();
-      final double close = (low + random.nextDouble() * (high - low)).clamp(low, high).toDouble();
+      final double open = (previousClose + trend / 2)
+          .clamp(7.2, 9.5)
+          .toDouble();
+      final double high = (open + random.nextDouble() * 0.35)
+          .clamp(open, 9.8)
+          .toDouble();
+      final double low = (open - random.nextDouble() * 0.35)
+          .clamp(6.8, open)
+          .toDouble();
+      final double close = (low + random.nextDouble() * (high - low))
+          .clamp(low, high)
+          .toDouble();
 
       // 🔹 新增：成交量（volume）区间 10000 ~ 11000
-      final int volume = 10000 + random.nextInt(1001); // nextInt(1001) → [0, 1000]
+      final int volume =
+          10000 + random.nextInt(1001); // nextInt(1001) → [0, 1000]
 
       previousClose = close;
 
@@ -124,9 +137,7 @@ class TestCtrl extends GetxController with GetSingleTickerProviderStateMixin {
     });
   }
 
-
-  double _round(double value) =>
-      (value * 100).roundToDouble() / 100;
+  double _round(double value) => (value * 100).roundToDouble() / 100;
 
   List<Offset> linePosition() {
     if (dataList.length < 2) {
@@ -266,6 +277,33 @@ class TestCtrl extends GetxController with GetSingleTickerProviderStateMixin {
     print('线条位置：lineLeft=${lineLeft.value}, lineTop=${lineTop.value}');
     print('当前数据：日期=${currentX.value}, 数值=${currentY.value}');
     print('=====================');
+  }
 
+  double deawWidth = 250.w;
+
+  ScrollController scrollController = ScrollController();
+
+  double backWidth = 65.w;
+
+  double turns = 0;
+  void showDraw() {
+    hasDraw = !hasDraw;
+    scrollController.animateTo(
+      hasDraw ? 0.0 : scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.linear,
+    );
+    update();
+  }
+  scrollListener() {
+    scrollController.addListener((){
+      final offset = scrollController.offset;
+      print("offset${offset}");
+      if(0<offset && offset<250.w){
+        turns = (offset/250.w)*-0.5;
+        backWidth = 145.w - (offset/250.w)*145.w;
+        update();
+      }
+    });
   }
 }

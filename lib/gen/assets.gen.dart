@@ -17,11 +17,37 @@ class $AssetsImagesGen {
   /// File path: assets/images/Banner.png
   AssetGenImage get banner => const AssetGenImage('assets/images/Banner.png');
 
+  /// File path: assets/images/Books.png
+  AssetGenImage get books => const AssetGenImage('assets/images/Books.png');
+
+  /// File path: assets/images/Computer.png
+  AssetGenImage get computer =>
+      const AssetGenImage('assets/images/Computer.png');
+
   /// File path: assets/images/Image.png
   AssetGenImage get image => const AssetGenImage('assets/images/Image.png');
 
+  /// File path: assets/images/Pig.png
+  AssetGenImage get pig => const AssetGenImage('assets/images/Pig.png');
+
+  /// File path: assets/images/lamp_object.png
+  AssetGenImage get lampObject =>
+      const AssetGenImage('assets/images/lamp_object.png');
+
+  /// File path: assets/images/startTop.jpg
+  AssetGenImage get startTop =>
+      const AssetGenImage('assets/images/startTop.jpg');
+
   /// List of all assets
-  List<AssetGenImage> get values => [banner, image];
+  List<AssetGenImage> get values => [
+    banner,
+    books,
+    computer,
+    image,
+    pig,
+    lampObject,
+    startTop,
+  ];
 }
 
 class Assets {

@@ -22,12 +22,11 @@ class FColumnChartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double effectiveSpacing =
-        spacing ?? (isScroll ? barWidth * 0.6 : 0);
+    final double effectiveSpacing = spacing ?? (isScroll ? barWidth * 0.6 : 0);
     final double totalWidth = isScroll
         ? (dataList.isEmpty
-            ? barWidth
-            : dataList.length * (barWidth + effectiveSpacing))
+              ? barWidth
+              : dataList.length * (barWidth + effectiveSpacing))
         : 0;
 
     final Widget chart = SizedBox(
@@ -86,9 +85,7 @@ class FColumnChart extends CustomPainter {
 
     final int length = dataList.length;
     final double denominator = length > 1 ? (length - 1).toDouble() : 1;
-    final double step = isScroll
-        ? width + spacing
-        : size.width / denominator;
+    final double step = isScroll ? width + spacing : size.width / denominator;
     final double halfBar = width / 2;
     final double valueRange = (max - min).abs() < 1e-6 ? 1 : (max - min);
 
@@ -96,11 +93,8 @@ class FColumnChart extends CustomPainter {
       final dynamic item = dataList[i];
       final double volume = item.volume?.toDouble() ?? 0;
 
-      final double x = isScroll
-          ? i * step + halfBar
-          : step * i;
-      final double normalized =
-          (volume - min) / valueRange;
+      final double x = isScroll ? i * step + halfBar : step * i;
+      final double normalized = (volume - min) / valueRange;
       final double y = size.height - normalized * size.height;
 
       canvas.drawLine(Offset(x, size.height), Offset(x, y), paint);

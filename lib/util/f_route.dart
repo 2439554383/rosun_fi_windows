@@ -8,8 +8,12 @@ import '../page/tab/home/new_deposit/deposit_success_page.dart';
 import '../page/demo_page.dart';
 import '../page/ecommerce_page.dart';
 import '../page/test/test_page.dart';
+import '../page/main_page/main_page.dart';
+import '../page/start_page/start_page.dart';
 
 class FRoute {
+  static const String main = '/main';
+  static const String start = '/start';
   static const String tab = '/tab';
   static const String stockDetail = '/stock_detail_page';
   static const String deposit = '/deposit_page';
@@ -21,18 +25,20 @@ class FRoute {
   static const String test = '/test';
 
   static List<GetPage> getPages = [
+    GetPage(name: main, page: () => MainPage()),
+    GetPage(name: start, page: () => StartPage()),
     GetPage(name: tab, page: () => TabPage()),
     GetPage(name: stockDetail, page: () => StockDetailPage()),
     GetPage(name: deposit, page: () => DepositPage()),
-    GetPage(name: newDeposit, page: () => const NewDepositPage()),
+    GetPage(name: newDeposit, page: () => NewDepositPage()),
     GetPage(
       name: newDepositApplication,
-      page: () => const DepositApplicationPage(),
+      page: () => DepositApplicationPage(),
     ),
-    GetPage(name: newDepositSuccess, page: () => const DepositSuccessPage()),
-    GetPage(name: demo, page: () => const DemoPage()),
-    GetPage(name: ecommerce, page: () => const EcommercePage()),
-    GetPage(name: test, page: () => const TestPage()),
+    GetPage(name: newDepositSuccess, page: () => DepositSuccessPage()),
+    GetPage(name: demo, page: () => DemoPage()),
+    GetPage(name: ecommerce, page: () => EcommercePage()),
+    GetPage(name: test, page: () => TestPage()),
   ];
 
   static push(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rosun_fi_windows/config/windows_config.dart';
+import 'package:rosun_fi_windows/page/main_page/main_page.dart';
+import 'package:rosun_fi_windows/page/start_page/start_page.dart';
 import 'package:rosun_fi_windows/page/test/test_page.dart';
 import 'package:rosun_fi_windows/util/f_route.dart';
 
@@ -74,7 +76,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: const TestPage(),
+          home: const StartPage(),
         );
       },
     );

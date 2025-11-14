@@ -1,9 +1,11 @@
 import 'dart:io' show Platform;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rosun_fi_windows/commen/font_style.dart';
 import 'package:rosun_fi_windows/extension/e_String.dart';
+import 'package:rosun_fi_windows/gen/assets.gen.dart';
 import 'package:rosun_fi_windows/widget/add_and_subtract.dart';
 import 'package:rosun_fi_windows/widget/f_column_chart.dart';
 import 'package:rosun_fi_windows/widget/public.dart';
@@ -21,9 +23,11 @@ class TestPage extends GetView<TestCtrl> {
   @override
   Widget build(BuildContext context) {
     PublicWidget pW = PublicWidget();
+    final fullWidth = MediaQuery.of(context).size.width;
+    final fullHeight = MediaQuery.of(context).size.height;
     return GetBuilder<TestCtrl>(
       init: TestCtrl(),
-      builder: (controller) {
+      builder: (ctrl) {
         print("重绘scaffold");
         return Scaffold(
           backgroundColor: Colors.black,
@@ -33,11 +37,94 @@ class TestPage extends GetView<TestCtrl> {
             foregroundColor: const Color(0xFF333333),
             elevation: 0,
             centerTitle: true,
+            leading: GestureDetector(
+              onTap: () {},
+              behavior: HitTestBehavior.opaque,
+              child: Icon(Icons.drag_indicator_rounded),
+            ),
           ),
-          body: SafeArea(
+          body: SingleChildScrollView(
+            controller: ctrl.scrollController,
+            scrollDirection: Axis.horizontal,
+            physics: const PageScrollPhysics(parent: ClampingScrollPhysics()),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
-              child: _buildTestContent(pW, controller),
+              width: fullWidth + ctrl.deawWidth,
+              height: fullHeight,
+              child: Row(
+                children: [
+                  AnimatedContainer(
+                    width: ctrl.deawWidth,
+                    height: double.infinity,
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    color: Colors.white,
+                    duration: Duration(milliseconds: 300),
+                    child: Column(
+                      spacing: 35.h,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30.h),
+                        Row(
+                          children: [
+                            AnimatedRotation(
+                              turns: ctrl.turns,
+                              duration: Duration(milliseconds: 500),
+                              child: ClipOval(
+                                child: Assets.images.banner.image(
+                                  width: 55.w,
+                                  height: 55.h,
+                                  fit: BoxFit.cover,
+                                ),
+                                clipBehavior: Clip.hardEdge,
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Text("骆旭东", style: MyFont().black_4_18),
+                          ],
+                        ),
+                        Stack(
+                          children: [
+                            AnimatedContainer(
+                              width: ctrl.backWidth,
+                              height: 45.h,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.w,
+                                vertical: 8.h,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.sp),
+                                color: Colors.lightBlueAccent.withOpacity(0.5),
+                              ),
+                              duration: Duration(milliseconds: 500),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.w,
+                                vertical: 8.h,
+                              ),
+                              child: Text("欢迎回来抽屉", style: MyFont().black_4_18),
+                            ),
+                          ],
+                        ),
+                        Text("欢迎回来抽屉", style: MyFont().black_4_18),
+                        Text("欢迎回来抽屉", style: MyFont().black_4_18),
+                        Text("欢迎回来抽屉", style: MyFont().black_4_18),
+                        Text("欢迎回来抽屉", style: MyFont().black_4_18),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: fullWidth,
+                      height: fullHeight,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 25.w,
+                        vertical: 25.h,
+                      ),
+                      child: _buildTestContent(pW, controller),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -60,6 +147,23 @@ class TestPage extends GetView<TestCtrl> {
     return ListView(
       children: [
         // 调试信息显示
+        GestureDetector(
+          onTap: () {
+            ctrl.showDraw();
+          },
+          behavior: HitTestBehavior.opaque,
+          child: Container(
+            alignment: Alignment.centerLeft,
+            width: 200,
+            child: ctrl.hasDraw
+                ? Icon(CupertinoIcons.back, color: Colors.white, size: 35.sp)
+                : Icon(
+                    Icons.drag_indicator_rounded,
+                    color: Colors.white,
+                    size: 35.sp,
+                  ),
+          ),
+        ),
         Container(
           padding: EdgeInsets.all(16.w),
           margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -425,7 +529,12 @@ class TestPage extends GetView<TestCtrl> {
           ),
         ),
         fBox(),
-        Center(child: Text("--------------蜡烛图---------------",style: MyFont().white_4_18,)),
+        Center(
+          child: Text(
+            "--------------蜡烛图---------------",
+            style: MyFont().white_4_18,
+          ),
+        ),
         fBox(),
         //蜡烛图
         Center(
@@ -478,16 +587,19 @@ class TestPage extends GetView<TestCtrl> {
                                   final open = item.open;
                                   final bool isUp = (close - open) > 0;
                                   final double candleHeight = close * 10;
-                                  final Color color =
-                                      isUp ? Colors.red : Colors.green;
+                                  final Color color = isUp
+                                      ? Colors.red
+                                      : Colors.green;
                                   return Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: spacing / 2),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: spacing / 2,
+                                    ),
                                     child: SizedBox(
                                       width: barWidth,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           SizedBox(height: candleHeight),
                                           Container(
@@ -570,8 +682,8 @@ class TestPage extends GetView<TestCtrl> {
                       final double barWidth = 25.w * scale;
                       final double spacing = 5.w * scale;
                       return SizedBox(
-                      height: 75.h,
-                      width: 300.w,
+                        height: 75.h,
+                        width: 300.w,
                         child: ListView.builder(
                           itemCount: ctrl.candleList.length,
                           scrollDirection: Axis.horizontal,
@@ -582,11 +694,13 @@ class TestPage extends GetView<TestCtrl> {
                             final double close = item.close;
                             final double open = item.open;
                             final bool isUp = (close - open) > 0;
-                            final Color color =
-                                isUp ? Colors.red : Colors.green;
+                            final Color color = isUp
+                                ? Colors.red
+                                : Colors.green;
                             return Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: spacing / 2),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: spacing / 2,
+                              ),
                               child: Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
