@@ -35,7 +35,7 @@ class StartPage extends GetView<StartPageCtrl> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    pW.Box(h: 75.h),
+                    Spacer(),
                     Material(
                       borderRadius: BorderRadius.circular(99.r),
                       clipBehavior: Clip.hardEdge,
@@ -66,6 +66,7 @@ class StartPage extends GetView<StartPageCtrl> {
                         ),
                       ),
                     ),
+                    pW.Box(h: 180.h),
                   ],
                 ),
               ),

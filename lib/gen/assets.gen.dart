@@ -34,9 +34,9 @@ class $AssetsImagesGen {
   AssetGenImage get lampObject =>
       const AssetGenImage('assets/images/lamp_object.png');
 
-  /// File path: assets/images/startTop.jpg
+  /// File path: assets/images/startTop.png
   AssetGenImage get startTop =>
-      const AssetGenImage('assets/images/startTop.jpg');
+      const AssetGenImage('assets/images/startTop.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
