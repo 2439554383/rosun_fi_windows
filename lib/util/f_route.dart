@@ -5,10 +5,10 @@ import '../page/tab/home/deposit/deposit_page.dart';
 import '../page/tab/home/new_deposit/new_deposit_page.dart';
 import '../page/tab/home/new_deposit/deposit_application_page.dart';
 import '../page/tab/home/new_deposit/deposit_success_page.dart';
-import '../page/demo_page.dart';
-import '../page/ecommerce_page.dart';
 import '../page/test/test_page.dart';
 import '../page/main_page/main_page.dart';
+import '../page/main_page/relaxation_space/relaxation_space.dart';
+import '../page/main_page/relaxation_space/spirit/spirit.dart';
 import '../page/start_page/start_page.dart';
 
 class FRoute {
@@ -23,6 +23,8 @@ class FRoute {
   static const String demo = '/demo';
   static const String ecommerce = '/ecommerce';
   static const String test = '/test';
+  static const String relaxationSpace = '/relaxation_space';
+  static const String spirit = '/spirit';
 
   static List<GetPage> getPages = [
     GetPage(name: main, page: () => MainPage()),
@@ -36,9 +38,9 @@ class FRoute {
       page: () => DepositApplicationPage(),
     ),
     GetPage(name: newDepositSuccess, page: () => DepositSuccessPage()),
-    GetPage(name: demo, page: () => DemoPage()),
-    GetPage(name: ecommerce, page: () => EcommercePage()),
     GetPage(name: test, page: () => TestPage()),
+    GetPage(name: relaxationSpace, page: () => RelaxationSpace()),
+    GetPage(name: spirit, page: () => Spirit()),
   ];
 
   static push(

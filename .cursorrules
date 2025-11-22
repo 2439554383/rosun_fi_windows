@@ -34,7 +34,25 @@ Loading.dismiss()，所有请求都是在我的控制器以这种方式请求，
 
 Getx 插件相关规则
 - 我每次叫你生成xxx文件，比如stock_detail，就是先生成一个stock_detail文件夹以及在stock_detail文件夹下生成stock_detail和stock_detail_ctrl的dart文件，类名就是像StockDetail和StockDetailCtrl，并且在f_uitl中创建路由名称和Getpage并使用基本的getx模板
-- 基本的getx模板就是页面文件使用getbuild和init来注册，scaffold-safeareas-center-column，并帮我写好一个组件方法，逻辑文件就是要有基本的init和onclose方法
+- 基本的getx模板就是页面文件使用getbuild和init来注册，FocusDetector-scaffold-safeareas-center-column，并帮我写好一个组件方法，逻辑文件就是要有基本的这四个方法（例子）：  @override
+  void onInit() {
+    super.onInit();
+    print("RelaxationSpaceCtrl初始化");
+  }
+
+  @override
+  void onClose() {
+    print("RelaxationSpaceCtrl销毁");
+    super.onClose();
+  }
+
+  void pageFocus() {
+    print("聚焦RelaxationSpaceCtrl");
+  }
+
+  void pageUnFocus() {
+    print("失焦RelaxationSpaceCtrl");
+  }
 - 在每次生成的页面文件中在类的下一行实例化PublicWidget pW = PublicWidget(),所有可以公共化的widget方法抽离到这个PublicWidget()类里，并在页面中使用
 Performance Optimization
 - Use const widgets where possible to optimize rebuilds.

@@ -28,7 +28,6 @@ class TestPage extends GetView<TestCtrl> {
     return GetBuilder<TestCtrl>(
       init: TestCtrl(),
       builder: (ctrl) {
-        print("重绘scaffold");
         return Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(

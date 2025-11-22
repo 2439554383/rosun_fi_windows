@@ -19,7 +19,6 @@ class MainPage extends GetView<MainPageCtrl> {
     return GetBuilder<MainPageCtrl>(
       init: MainPageCtrl(),
       builder: (ctrl) {
-        print("重绘scaffold");
         return Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
@@ -246,29 +245,34 @@ class MainPage extends GetView<MainPageCtrl> {
                                               opacity: isInitialized ? 1 : 0,
                                               duration: const Duration(milliseconds: 500),
                                               curve: Curves.easeOut,
-                                              child: Container(
-                                                margin: EdgeInsets.symmetric(horizontal: 15.w,vertical: 15.h),
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(30.r),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors.grey.withOpacity(0.3),
-                                                          blurRadius: 10.r,
-                                                          offset: Offset(0.0,10.0)
-                                                      )
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  item.onTap();
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.symmetric(horizontal: 15.w,vertical: 15.h),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(30.r),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.grey.withOpacity(0.3),
+                                                            blurRadius: 10.r,
+                                                            offset: Offset(0.0,10.0)
+                                                        )
+                                                      ],
+                                                      color: Colors.white
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Container(
+                                                        width: 65.w,
+                                                        height: 65.h,
+                                                        child: item.image,
+                                                      ),
+                                                      Text(item.name,style: TextStyle(fontFamily: FontFamily.workSans,fontSize: 18.sp,color: Colors.black))
                                                     ],
-                                                    color: Colors.white
-                                                ),
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: 65.w,
-                                                      height: 65.h,
-                                                      child: item.image,
-                                                    ),
-                                                    Text(item.name,style: TextStyle(fontFamily: FontFamily.workSans,fontSize: 18.sp,color: Colors.black))
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
