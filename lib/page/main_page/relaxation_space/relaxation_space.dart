@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widget_previews.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:genui/genui.dart';
@@ -124,6 +125,42 @@ class _RelaxationSpaceState extends State<RelaxationSpace> {
                       style: TextStyle(fontSize: 16.sp),
                       textAlign: TextAlign.center,
                     ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _surfaceIds.length,
+                        itemBuilder: (context, index) {
+                          // For each surface, create a GenUiSurface to display it.
+                          final id = _surfaceIds[index];
+                          return GenUiSurface(host: _genUiConversation.host, surfaceId: id);
+                        },
+                      ),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _textController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter a message',
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Send the user's text to the agent.
+                                _sendMessage(_textController.text);
+                                _textController.clear();
+                              },
+                              child: const Text('Send'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -133,4 +170,138 @@ class _RelaxationSpaceState extends State<RelaxationSpace> {
       },
     );
   }
+}
+
+// ==================== Widget Previews ====================
+
+/// 放松空间标题预览
+@Preview(name: '放松空间 - 标题部分')
+Widget relaxationSpaceTitlePreview() {
+  return Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text(
+          '放松空间',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Text(
+          '冥想音乐、自然白噪音、助眠故事，治愈你的心灵',
+          style: TextStyle(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+  );
+}
+
+/// 放松空间按钮预览
+@Preview(name: '放松空间 - 快应用按钮')
+Widget relaxationSpaceButtonPreview() {
+  return ElevatedButton(
+    onPressed: () {},
+    child: const Text("打开快应用"),
+  );
+}
+
+/// 放松空间输入框预览
+@Preview(
+  name: '放松空间 - 消息输入框',
+  size: Size(400, 100),
+)
+Widget relaxationSpaceInputPreview() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    child: Row(
+      children: [
+        const Expanded(
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Enter a message',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        const SizedBox(width: 16),
+        ElevatedButton(
+          onPressed: () {},
+          child: const Text('Send'),
+        ),
+      ],
+    ),
+  );
+}
+
+/// 放松空间完整布局预览（简化版，不包含 GetX 和复杂状态）
+@Preview(
+  name: '放松空间 - 完整布局预览',
+  wrapper: _materialAppWrapper,
+  size: Size(400, 600),
+)
+Widget relaxationSpaceLayoutPreview() {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    body: SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("打开快应用"),
+            ),
+            const Text(
+              '放松空间',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                '冥想音乐、自然白噪音、助眠故事，治愈你的心灵',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Enter a message',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Send'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _materialAppWrapper(Widget child) {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: child,
+  );
 }

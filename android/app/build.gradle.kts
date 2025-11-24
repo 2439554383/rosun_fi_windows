@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "com.example.rosun_fi_windows"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "28.1.13356709"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
