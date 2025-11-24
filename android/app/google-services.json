@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "54729759940",
+    "project_id": "rosun-fi-windows",
+    "storage_bucket": "rosun-fi-windows.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54729759940:android:2b53cfee64f2cb72157d91",
+        "android_client_info": {
+          "package_name": "com.example.rosun_fi_windows"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ993E0PgsK60bh9BSxE9Bm5ZuGOdcVGI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
